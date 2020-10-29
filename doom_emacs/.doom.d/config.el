@@ -848,6 +848,9 @@ With a prefix ARG always prompt for command to use."
 ;; Source: https://stackoverflow.com/questions/55563546/emacs-org-mode-latex-simply-switch-between-pdflatex-xelatex-and-lualatex
 (setq org-latex-pdf-process (list "latexmk -pdflatex='%latex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))
 
+;; Source: https://emacsredux.com/blog/2016/01/31/use-tab-to-indent-or-complete/
+(setq tab-always-indent 'complete)
+
 ;; Source: https://stackoverflow.com/questions/47058372/in-org-mode-how-to-call-code-block-to-evaluate-from-other-org-file
 (org-babel-lob-ingest "~/Dropbox/Documents/Org/MindMeld/Org/Concepts/org_babel_dot_graph_generation.org")
 
