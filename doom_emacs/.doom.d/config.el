@@ -492,6 +492,8 @@ Mark them for deletion by cron job."
 *** Related Work
 
 
+Related to 
+
 *** Methods
 
 
@@ -499,9 +501,7 @@ Mark them for deletion by cron job."
 
 
 *** Conclusions
-
-
-Related to "
+"
            :unnarrowed t)
           ("c" "Concept" plain (function org-roam--capture-get-point)
            "%?"
@@ -511,6 +511,9 @@ Related to "
 #+title: ${title}
 
 ** Summary
+
+
+** Related Work
 
 
 Related to "
@@ -545,6 +548,8 @@ Related to "
 *** Related Work
 
 
+Related to 
+
 *** Methods
 
 
@@ -552,9 +557,7 @@ Related to "
 
 
 *** Conclusions
-
-
-Related to "
+"
            :unnarrowed t)
           ("j" "Private" plain (function org-roam-capture--get-point)
            "%?"
