@@ -477,6 +477,7 @@ Mark them for deletion by cron job."
            :file-name "Books/${slug}"
            :head "#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
+#+roam_tags: book
 #+title: ${title}
 
 ** Source
@@ -490,8 +491,6 @@ Mark them for deletion by cron job."
 
 
 *** Related Work
-
-
 Related to 
 
 *** Methods
@@ -508,14 +507,13 @@ Related to
            :file-name "Concepts/${slug}"
            :head "#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
+#+roam_tags: concept
 #+title: ${title}
 
 ** Summary
 
 
 ** Related Work
-
-
 Related to "
            :unnarrowed t)
           ("l" "Lab" plain (function org-roam--capture-get-point)
@@ -523,6 +521,7 @@ Related to "
            :file-name "Lab/${slug}"
            :head "#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
+#+roam_tags: lab
 #+title: ${title}
 
 ** Summary
@@ -533,6 +532,7 @@ Related to "
            :file-name "Papers/${slug}"
            :head "#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
+#+roam_tags: paper
 #+title: ${title}
 
 ** Source
@@ -546,9 +546,37 @@ Related to "
 
 
 *** Related Work
+Need
+
+*** Methods
 
 
-Related to 
+*** Results
+
+
+*** Conclusions
+"
+           :unnarrowed t)
+          ("t" "Talk" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "Talks/${slug}"
+           :head "#+setupfile:../hugo_setup.org
+#+hugo_slug: ${slug}
+#+roam_tags: talk
+#+title: ${title}
+
+** Source
+
+
+** Summary
+*** Abstract
+
+
+*** Introduction
+
+
+*** Related Work
+Related to
 
 *** Methods
 
@@ -562,7 +590,8 @@ Related to
           ("j" "Private" plain (function org-roam-capture--get-point)
            "%?"
            :file-name "Private/${slug}"
-           :head "#+title: ${title}
+           :head "#+roam_tags: private
+#+title: ${title}
 
 ** Summary
 "
