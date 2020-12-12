@@ -546,7 +546,7 @@ Related to "
 
 
 *** Related Work
-Need [[file:~/Dropbox/Documents/Org/MindMeld/Org/reading_list.org][to read]].
+Need [[file:../reading_list.org][to read]].
 
 *** Methods
 
