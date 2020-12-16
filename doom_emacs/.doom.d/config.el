@@ -917,3 +917,9 @@ With a prefix ARG always prompt for command to use."
 
 ;; Source: https://github.com/Wilfred/deadgrep
 (global-set-key (kbd "<f5>") #'deadgrep)
+
+;; Found by interactively calling global-set-key (in GUI) followed by C-x ESC ESC (repeat-complex-command) to see how Emacs chose to formulate this command
+(global-set-key [3 24 C-i] 'org-clock-in)
+
+;; Found by interactively calling global-set-key (in GUI) followed by C-x ESC ESC (repeat-complex-command) to see how Emacs chose to formulate this command
+(global-set-key [3 24 C-o] 'org-clock-out)
