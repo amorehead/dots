@@ -589,7 +589,7 @@ Related to
            :unnarrowed t)
           ("j" "Private" plain (function org-roam-capture--get-point)
            "%?"
-           :file-name "Private/${slug}"
+           :file-name "Private/Notes/${slug}"
            :head "#+roam_tags: private
 #+title: ${title}
 
@@ -680,7 +680,7 @@ Related to "
 (after! org-journal
   (setq org-journal-date-prefix "#+TITLE: "
         org-journal-file-format "%Y-%m-%d.org"
-        org-journal-dir (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/Private/")
+        org-journal-dir (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/Private/Notes/")
         org-journal-carryover-items nil))
 
 (use-package! citeproc-org
