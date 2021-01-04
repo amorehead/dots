@@ -928,3 +928,6 @@ With a prefix ARG always prompt for command to use."
 (server-start)
 (add-to-list 'load-path "~/path/to/org/protocol/")
 (require 'org-protocol)
+
+;; Source: https://emacs.stackexchange.com/questions/28037/org-mode-file-hyperlinks-always-use-doc-view-cant-force-it-to-use-external-pdf?rq=1
+;; No code required for the enhancement above
