@@ -9,8 +9,14 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#222228" "#74DFC4"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#222228" "#4E415C"))
  '(objed-cursor-color "#964C7B")
+ '(org-file-apps
+   '(("\\.pdf\\'" . "xournalpp %s")
+     (auto-mode . emacs)
+     (directory . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)))
  '(package-selected-packages
-   '(gnuplot-mode ob-ipython ob-async deft modus-vivendi-theme modus-operandi-theme deadgrep))
+   '(openwith pdf-tools gnuplot-mode ob-ipython ob-async deft modus-vivendi-theme modus-operandi-theme deadgrep))
  '(pdf-view-display-size 'fit-width)
  '(pdf-view-midnight-colors (cons "#FFFFFF" "#27212E"))
  '(rustic-ansi-faces

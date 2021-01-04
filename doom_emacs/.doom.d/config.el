@@ -589,7 +589,7 @@ Related to
            :unnarrowed t)
           ("j" "Private" plain (function org-roam-capture--get-point)
            "%?"
-           :file-name "Private/Notes/${slug}"
+           :file-name "Private/${slug}"
            :head "#+roam_tags: private
 #+title: ${title}
 
@@ -680,7 +680,7 @@ Related to "
 (after! org-journal
   (setq org-journal-date-prefix "#+TITLE: "
         org-journal-file-format "%Y-%m-%d.org"
-        org-journal-dir (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/Private/Notes/")
+        org-journal-dir (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/Private/")
         org-journal-carryover-items nil))
 
 (use-package! citeproc-org
@@ -923,3 +923,8 @@ With a prefix ARG always prompt for command to use."
 
 ;; Found by interactively calling global-set-key (in GUI) followed by C-x ESC ESC (repeat-complex-command) to see how Emacs chose to formulate this command
 (global-set-key [3 24 C-o] 'org-clock-out)
+
+;; Source: https://orgmode.org/worg/org-contrib/org-protocol.html
+(server-start)
+(add-to-list 'load-path "~/path/to/org/protocol/")
+(require 'org-protocol)
