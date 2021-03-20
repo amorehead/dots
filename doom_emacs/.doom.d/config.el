@@ -546,7 +546,7 @@ Related to "
 
 
 *** Related Work
-Need [[file:../reading_list.org][to read]].
+Need [[file:../2021_research_list.org][to read]].
 
 *** Methods
 
@@ -696,9 +696,6 @@ Related to "
   (setq mathpix-screenshot-method "maim -u -s %s"
         mathpix-app-id (password-store-get "mathpix/app-id")
         mathpix-app-key (password-store-get "mathpix/app-key")))
-
-(use-package! anki-editor
-  :commands (anki-editor-mode))
 
 (use-package! gif-screencast
   :bind
