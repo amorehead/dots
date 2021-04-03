@@ -16,7 +16,7 @@
      ("\\.mm\\'" . default)
      ("\\.x?html?\\'" . default)))
  '(package-selected-packages
-   '(openwith pdf-tools gnuplot-mode ob-ipython ob-async deft modus-vivendi-theme modus-operandi-theme deadgrep))
+   '(pomodoro org-pomodoro openwith pdf-tools gnuplot-mode ob-ipython ob-async deft modus-vivendi-theme modus-operandi-theme deadgrep))
  '(pdf-view-display-size 'fit-width)
  '(pdf-view-midnight-colors (cons "#FFFFFF" "#27212E"))
  '(rustic-ansi-faces
