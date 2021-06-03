@@ -1,15 +1,28 @@
+;; To set up Doom Emacs (from scratch) for Manjaro Linux, use the following procedure:
+;;
+;; 1. Run 'sudo pacman -S ripgrep'
+;; 2. Remove any existing Emacs/Doom Emacs configuration files from ~/.emacs.d and ~/.doom.d
+;; 3. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
+;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
+;; 																					(package! company-posframe)
+;; 																					(package! citeproc-org)'
+;; 																					(package! org-roam-server)
+;; 																					(package! org-roam-bibtex)
+;; 5. Run '~/.emacs.d/bin/doom sync'
+
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; C-c n r is for refiling any tasks into a more appropriate location
-(define-key global-map "\C-cnr" 'org-refile)
+;; (define-key global-map "\C-cnr" 'org-refile)
 
 (setq user-full-name "Alex Morehead"
       user-mail-address "alex.morehead@gmail.com"
       doom-scratch-intial-major-mode 'lisp-interaction-mode
       doom-font (font-spec :family "Iosevka" :size 16)
       doom-variable-pitch-font (font-spec :family "Libre Baskerville")
+      doom-big-font (font-spec :family "Libre Baskerville")
       doom-serif-font (font-spec :family "Libre Baskerville")
-      display-line-numbers-type nil
+      display-line-numbers-type t
 
       company-idle-delay nil
       lsp-ui-sideline-enable nil
@@ -35,65 +48,6 @@
 
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
-(use-package! notmuch
-  :commands (notmuch)
-  :init
-  (map! :desc "notmuch" "<f2>" #'notmuch)
-  (map! :map notmuch-search-mode-map
-        :desc "toggle read" "t" #'+notmuch/toggle-read
-        :desc "Reply to thread" "r" #'notmuch-search-reply-to-thread
-        :desc "Reply to thread sender" "R" #'notmuch-search-reply-to-thread-sender
-        :desc "Filter" "/" #'notmuch-search-filter
-        :desc "Archive All" "A" #'+notmuch-archive-all
-        :desc "Delete All" "D" #'+notmuch-delete-all)
-  (map! :map notmuch-show-mode-map
-        :desc "Next link" "<tab>" #'org-next-link
-        :desc "Previous link" "<backtab>" #'org-previous-link
-        :desc "URL at point" "C-<return>" #'browse-url-at-point)
-  (defun +notmuch/toggle-read ()
-    "toggle read status of message"
-    (interactive)
-    (if (member "unread" (notmuch-search-get-tags))
-        (notmuch-search-tag (list "-unread"))
-      (notmuch-search-tag (list "+unread"))))
-  :config
-  (setq message-auto-save-directory "~/.mail/Drafts/"
-        message-send-mail-function 'message-send-mail-with-sendmail
-        sendmail-program (executable-find "msmtp")
-        message-sendmail-envelope-from 'header
-        mail-envelope-from 'header
-        mail-specify-envelope-from t
-        message-sendmail-f-is-evil nil
-        message-kill-buffer-on-exit t
-        notmuch-always-prompt-for-sender t
-        notmuch-archive-tags '("-unread")
-        notmuch-crypto-process-mime t
-        notmuch-hello-sections '(notmuch-hello-insert-saved-searches)
-        notmuch-labeler-hide-known-labels t
-        notmuch-search-oldest-first nil
-        notmuch-archive-tags '("-inbox" "-unread")
-        notmuch-message-headers '("To" "Cc" "Subject" "Bcc")
-        notmuch-saved-searches '((:name "inbox" :query "tag:inbox")
-                                 (:name "unread" :query "tag:inbox and tag:unread")
-                                 (:name "to-me" :query "tag:inbox and tag:to-me")
-                                 (:name "personal" :query "tag:inbox and tag:personal")
-                                 (:name "org-roam" :query "tag:inbox and tag:roam")
-                                 (:name "nus" :query "tag:inbox and tag:nus")
-                                 (:name "drafts" :query "tag:draft")))
-
-  (defun +notmuch-archive-all ()
-    "Archive all the emails in the current view."
-    (interactive)
-    (notmuch-search-archive-thread nil (point-min) (point-max)))
-
-
-  (defun +notmuch-delete-all ()
-    "Archive all the emails in the current view.
-Mark them for deletion by cron job."
-    (interactive)
-    (notmuch-search-tag-all '("+deleted"))
-    (+notmuch-archive-all)))
-
 (after! dired
   (setq dired-listing-switches "-aBhl  --group-directories-first"
         dired-dwim-target t
@@ -111,90 +65,6 @@ Mark them for deletion by cron job."
   :init
   (map! "M-s" #'deadgrep))
 
-(use-package! smerge-mode
-  :bind (("C-c h s" . amorehead/hydra-smerge/body))
-  :init
-  (defun amorehead/enable-smerge-maybe ()
-    "Auto-enable `smerge-mode' when merge conflict is detected."
-    (save-excursion
-      (goto-char (point-min))
-      (when (re-search-forward "^<<<<<<< " nil :noerror)
-        (smerge-mode 1))))
-  (add-hook 'find-file-hook #'amorehead/enable-smerge-maybe :append)
-  :config
-  (defhydra amorehead/hydra-smerge (:color pink
-                                        :hint nil
-                                        :pre (smerge-mode 1)
-                                        ;; Disable `smerge-mode' when quitting hydra if
-                                        ;; no merge conflicts remain.
-                                        :post (smerge-auto-leave))
-    "
-   ^Move^       ^Keep^               ^Diff^                 ^Other^
-   ^^-----------^^-------------------^^---------------------^^-------
-   _n_ext       _b_ase               _<_: upper/base        _C_ombine
-   _p_rev       _u_pper           g   _=_: upper/lower       _r_esolve
-   ^^           _l_ower              _>_: base/lower        _k_ill current
-   ^^           _a_ll                _R_efine
-   ^^           _RET_: current       _E_diff
-   "
-    ("n" smerge-next)
-    ("p" smerge-prev)
-    ("b" smerge-keep-base)
-    ("u" smerge-keep-upper)
-    ("l" smerge-keep-lower)
-    ("a" smerge-keep-all)
-    ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
-    ("<" smerge-diff-base-upper)
-    ("=" smerge-diff-upper-lower)
-    (">" smerge-diff-base-lower)
-    ("R" smerge-refine)
-    ("E" smerge-ediff)
-    ("C" smerge-combine-with-next)
-    ("r" smerge-resolve)
-    ("k" smerge-kill-current)
-    ("q" nil "cancel" :color blue)))
-
-(use-package! magit
-  :init
-  (map! "s-g" #'magit-status
-        "C-c g" #'magit-status
-        "s-G" #'magit-blame-addition
-        "C-c G" #'magit-blame-addition)
-  :config
-  (transient-append-suffix 'magit-log "a"
-    '("w" "Wip" magit-wip-log-current))
-  (magit-define-popup-switch 'magit-log-popup
-                             ?m "Omit merge commits" "--no-merges")
-  (transient-append-suffix 'magit-log "-A"
-    '("-m" "Omit merge commits" "--no-merges")))
-
-(use-package! git-link
-  :commands
-  (git-link git-link-commit git-link-homepage)
-  :custom
-  (git-link-use-commit t))
-
-(use-package! easy-kill
-  :bind*
-  (([remap kill-ring-save] . easy-kill)))
-
-(use-package! smartparens
-  :init
-  (map! :map smartparens-mode-map
-        "C-M-f" #'sp-forward-sexp
-        "C-M-b" #'sp-backward-sexp
-        "C-M-u" #'sp-backward-up-sexp
-        "C-M-d" #'sp-down-sexp
-        "C-M-p" #'sp-backward-down-sexp
-        "C-M-n" #'sp-up-sexp
-        "C-M-s" #'sp-splice-sexp
-        "C-)" #'sp-forward-slurp-sexp
-        "C-}" #'sp-forward-barf-sexp
-        "C-(" #'sp-backward-slurp-sexp
-        "C-M-)" #'sp-backward-slurp-sexp
-        "C-M-)" #'sp-backward-barf-sexp))
-
 ;; Sourced from http://cachestocaches.com/2018/6/org-literate-programming/#org-babel-basics--remote-code-execution
 ;; Run/highlight code using babel in org-mode
 (org-babel-do-load-languages
@@ -209,20 +79,20 @@ Mark them for deletion by cron job."
     (shell . t)
   ;; Include other languages here...
   ))
+  
 ;; Syntax highlight in #+BEGIN_SRC blocks
 (setq org-src-fontify-natively t)
+
 ;; Don't prompt before running code in org
 (setq org-confirm-babel-evaluate nil)
+
 ;; Fix an incompatibility between the ob-async and ob-ipython packages
 (setq ob-async-no-async-languages-alist '("ipython"))
 
+;; Fix citeproc-org installation
+(require 'company-posframe)
+
 (after! org
-  (use-package! ol-notmuch
-  :init
-  (map! :map notmuch-show-mode-map "C" #'amorehead/org-capture-email)
-  (defun amorehead/org-capture-email ()
-    (interactive)
-    (org-capture nil "e")))
   (require 'org-habit)
 
   (with-eval-after-load 'flycheck
@@ -266,8 +136,6 @@ Mark them for deletion by cron job."
 (setq org-capture-templates
       `(("i" "Inbox" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
          "* TODO %? :INBOX:")
-        ("e" "Email" entry (file+headline ,(concat amorehead/org-agenda-directory "Emails.org") "Emails")
-         "* TODO [#A] Reply: %a :@HOME:@SCHOOL:" :immediate-finish t)
         ("l" "Link" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
          "* TODO %(org-cliplink-capture)" :immediate-finish t)
         ("c" "Capture with org-protocol" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
@@ -802,13 +670,6 @@ With a prefix ARG always prompt for command to use."
     (call-process program nil 0 nil current-file-name)))
 
 ;;(map! "C-c o o" 'amorehead/open-with)
-
-(use-package! org-gcal
-  :commands (org-gcal-sync)
-  :config
-  (setq org-gcal-client-id (password-store-get "Email/org-gcal-client")
-        org-gcal-client-secret (password-store-get "Email/org-gcal-secret")
-        org-gcal-file-alist `(("alex.morehead@gmail.com" . ,(concat amorehead/org-agenda-directory "Calendars/Personal.org")))))
 
 (use-package prog-mode
   :config
