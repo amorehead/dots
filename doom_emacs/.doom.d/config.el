@@ -5,7 +5,7 @@
 ;; 3. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
 ;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
 ;; 																					(package! company-posframe)
-;; 																					(package! citeproc-org)'
+;; 																					(package! citeproc-org)
 ;; 																					(package! org-roam-server)
 ;; 																					(package! org-roam-bibtex)
 ;; 5. Run '~/.emacs.d/bin/doom sync'
