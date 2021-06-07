@@ -1,11 +1,11 @@
 ;; To set up Doom Emacs (from scratch) for Manjaro Linux, use the following procedure:
 ;;
-;; 1. Run 'pacaur -S ripgrep ttf-iosevka ttf-ms-fonts ttf-liberation ttf-indic-otf ttf-inconsolata ttf-impallari-libre-baskerville ttf-hack ttf-droid ttf-dejavu ttf-carlito'
+;; 1. Run 'sudo pacman -S ripgrep'
 ;; 2. Remove any existing Emacs/Doom Emacs configuration files from ~/.emacs.d and ~/.doom.d
 ;; 3. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
 ;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
 ;; 																					(package! company-posframe)
-;; 																					(package! citeproc-org)
+;; 																					(package! citeproc-org)'
 ;; 																					(package! org-roam-server)
 ;; 																					(package! org-roam-bibtex)
 ;; 5. Run '~/.emacs.d/bin/doom sync'
@@ -789,3 +789,6 @@ With a prefix ARG always prompt for command to use."
 
 ;; Source: https://emacs.stackexchange.com/questions/28037/org-mode-file-hyperlinks-always-use-doc-view-cant-force-it-to-use-external-pdf?rq=1
 ;; No code required for the enhancement above
+
+;; Force pdf-tools to "install" at startup to become the default PDF reader in Emacs
+(pdf-tools-install)
