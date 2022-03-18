@@ -592,6 +592,7 @@ Related to "
   :after (org-roam)
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :config
+  (require 'org-ref)
   (setq org-roam-bibtex-preformat-keywords
    '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
   (setq orb-templates
