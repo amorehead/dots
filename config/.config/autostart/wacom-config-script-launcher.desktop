@@ -2,7 +2,7 @@
 Name=Wacom Tablet Configuration Launcher
 GenericName=Wacom Tablet Configuration Launcher
 Comment=A launcher for setting Wacom tablet configuration settings
-Exec=/home/alexmorehead/xsetwacom.sh
+Exec=/home/alexm/xsetwacom.sh
 Terminal=false
 Type=Application
 X-GNOME-Autostart-enabled=true
