@@ -27,6 +27,15 @@
       company-idle-delay nil
       lsp-ui-sideline-enable nil
       lsp-enable-symbol-highlighting nil)
+      
+;; Sourced from: https://jblevins.org/projects/deft/
+(use-package deft
+  :bind ("<f8>" . deft)
+  :commands (deft)
+  :config (setq deft-directory "~/Dropbox/Documents/Org/MindMeld/Org"))
+
+(setq deft-recursive t)
+(setq deft-use-filename-as-title t)
 
 (setq org-directory "~/Dropbox/Documents/Org/GTD/Org"
       org-ellipsis " ▼ "
@@ -676,15 +685,6 @@ With a prefix ARG always prompt for command to use."
   :config
   (add-hook 'prog-mode-hook 'outline-minor-mode)
   (add-hook 'prog-mode-hook 'hs-minor-mode))
-
-;; Sourced from: https://jblevins.org/projects/deft/
-(use-package deft
-  :bind ("<f8>" . deft)
-  :commands (deft)
-  :config (setq deft-directory "~/Dropbox/Documents/Org/MindMeld/Org"))
-
-(setq deft-recursive t)
-(setq deft-use-filename-as-title t)
 
 (defun amorehead/ledger-cleanup-csv ()
   (save-excursion
