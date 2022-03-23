@@ -6,7 +6,7 @@
 ;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
 ;; 																					(package! company-posframe)
 ;; 																					(package! citeproc-org)
-;; 																					(package! org-roam-server)
+;; 																					(package! org-roam-ui)
 ;; 																					(package! org-roam-bibtex)
 ;; 5. Run '~/.emacs.d/bin/doom sync'
 
@@ -508,14 +508,6 @@ Related to "
         "<M-right>" #'winner-redo
         "<M-left>" #'winner-undo))
 
-(after! (org ox-hugo)
-  (defun amorehead/conditional-hugo-enable ()
-    (save-excursion
-      (if (cdr (assoc "SETUPFILE" (org-roam--extract-global-props '("SETUPFILE"))))
-          (org-hugo-auto-export-mode +1)
-        (org-hugo-auto-export-mode -1))))
-  (add-hook 'org-mode-hook #'amorehead/conditional-hugo-enable))
-
 (use-package! org-download
   :commands
   org-download-dnd
@@ -654,7 +646,7 @@ Related to "
 (use-package! yaml-mode
   :mode ("\\.yml\\'" . yaml-mode))
 
-(use-package! org-roam-server)
+(use-package! org-roam-ui)
 
 (use-package! emmet-mode
   :hook
@@ -792,4 +784,4 @@ With a prefix ARG always prompt for command to use."
 ;; No code required for the enhancement above
 
 ;; Force pdf-tools to "install" at startup to become the default PDF reader in Emacs
-(pdf-tools-install)
+;; (pdf-tools-install)
