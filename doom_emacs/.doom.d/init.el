@@ -65,8 +65,8 @@
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
-       citeproc-org        ; Now I can cite like a boss with Emacs
-       company-posframe    ; UI-uplift much?
+       ;;citeproc-org        ; Now I can cite like a boss with Emacs
+       ;;company-posframe    ; UI-uplift much?
 
        :emacs
        dired             ; making dired pretty [functional]
@@ -155,6 +155,7 @@
         ;;+dragndrop ; drag & drop files/images into org buffersq
         +noter
         +journal
+        +roam2           ; use version 2 of org-roam
         +hugo            ; use Emacs for hugo blogging
         ;;+jupyter        ; ipython/jupyter support for babel
         ;;+pandoc          ; export-with-pandoc support

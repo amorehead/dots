@@ -50,7 +50,7 @@
 ;(unpin! t)
 
 ;; Install company-posframe for citeproc-org
-(package! company-posframe)
-(package! citeproc-org)
+;;(package! company-posframe)
+;;(package! citeproc-org)
 (package! org-roam-server)
 (package! org-roam-bibtex)

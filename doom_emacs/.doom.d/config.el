@@ -1,6 +1,6 @@
 ;; To set up Doom Emacs (from scratch) for Manjaro Linux, use the following procedure:
 ;;
-;; 1. Run 'yay -S emacs-org-roam ripgrep dot2tex fd ttf-iosevka ttf-librebaskerville'
+;; 1. Run 'yay -S emacs-graphql-git emacs-treepy-git emacs-libegit2-git emacs-async-git emacs-magit-popup emacs-with-editor emacs-ghub emacs-hydra-git emacs-transient emacs-magit-git emacs-org-roam ripgrep dot2tex fd ttf-iosevka ttf-librebaskerville'
 ;; 2. Remove any existing Emacs/Doom Emacs configuration files from ~/.emacs.d and ~/.doom.d
 ;; 3. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
 ;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
@@ -32,7 +32,8 @@
 (use-package deft
   :bind ("<f8>" . deft)
   :commands (deft)
-  :config (setq deft-directory "~/Dropbox/Documents/Org/MindMeld/Org"))
+  :config (setq deft-directory "~/Dropbox/Documents/Org/MindMeld/Org"
+  			    deft-extensions '("org", "tex")))
 
 (setq deft-recursive t)
 (setq deft-use-filename-as-title t)
@@ -99,7 +100,7 @@
 (setq ob-async-no-async-languages-alist '("ipython"))
 
 ;; Fix citeproc-org installation
-(require 'company-posframe)
+;;(require 'company-posframe)
 
 (after! org
   (require 'org-habit)
@@ -143,12 +144,15 @@
         (find-lisp-find-files amorehead/org-agenda-directory "\.org$")))
 
 (setq org-capture-templates
-      `(("i" "Inbox" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
-         "* TODO %? :INBOX:")
-        ("l" "Link" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
-         "* TODO %(org-cliplink-capture)" :immediate-finish t)
-        ("c" "Capture with org-protocol" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
-         "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
+      `(
+		  ("i" "Inbox" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
+		     "* TODO %? :INBOX:")
+		  ("l" "Link" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
+		     "* TODO %(org-cliplink-capture)" :immediate-finish t)
+		  ("c" "Capture with org-protocol" entry (file ,(concat amorehead/org-agenda-directory "Inbox.org"))
+		     "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
+      )
+)
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -328,31 +332,45 @@
                                               (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled)))))))))
 
 (use-package! org-roam
-  :commands (org-roam-insert org-roam-find-file org-roam-switch-to-buffer org-roam)
-  :hook
-  (after-init . org-roam-mode)
+  :commands (org-capture org-roam-graph org-roam-capture)
   :init
   (map! :leader
         :prefix "n"
-        :desc "org-roam" "l" #'org-roam
-        :desc "org-roam-insert" "i" #'org-roam-insert
-        :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
-        :desc "org-roam-find-file" "f" #'org-roam-find-file
-        :desc "org-roam-show-graph" "g" #'org-roam-show-graph
-        :desc "org-roam-insert" "i" #'org-roam-insert
+        :desc "org-capture" "i" #'org-capture
+        :desc "org-roam-graph" "g" #'org-roam-graph
         :desc "org-roam-capture" "c" #'org-roam-capture)
-  (setq org-roam-directory (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/")
-        org-roam-db-location "~/Dropbox/Documents/Org/MindMeld/Org/org_roam.db"
-        org-roam-db-gc-threshold most-positive-fixnum
+  (setq org-roam-db-gc-threshold most-positive-fixnum
         org-roam-graph-exclude-matcher (list "Private" "Lab")
         org-roam-tag-sources '(prop last-directory)
         org-id-link-to-org-use-id t)
-  :config
+)
+
+(use-package! org-roam-protocol
+  :after org-protocol)
+
+(after! company
+  (map! "M-/" #'company-complete))
+
+;;(use-package! company-posframe
+;;  :hook (company-mode . company-posframe-mode))
+
+(after! org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  ;;(winner-mode +1)
+  ;;(map! :map winner-mode-map
+  ;;      "<M-right>" #'winner-redo
+  ;;      "<M-left>" #'winner-undo)
+  (setq org-roam-directory (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/"))
+  (setq org-roam-db-location "~/Dropbox/Documents/Org/MindMeld/Org/org_roam.db")
+  (setq org-roam-complete-everywhere t)
   (setq org-roam-capture-templates
-        '(("b" "Book" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "Books/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+  	'(
+  		("b" "Book" plain "%?" :target
+  		        (file+head "Books/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
 #+roam_tags: book
 #+title: ${title}
@@ -376,13 +394,12 @@ Related to
 *** Results
 
 
-*** Conclusions
-"
-           :unnarrowed t)
-          ("c" "Concept" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "Concepts/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+*** Conclusions\n"
+				) :unnarrowed t)
+
+      	("c" "Concept" plain "%?" :target
+      	        (file+head "Concepts/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
 #+roam_tags: concept
 #+title: ${title}
@@ -392,22 +409,20 @@ Related to
 
 ** Related Work
 Related to "
-           :unnarrowed t)
-          ("l" "Lab" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "Lab/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+				) :unnarrowed t)
+
+        ("l" "Lab" plain "%?" :target
+                (file+head "Lab/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
 #+roam_tags: lab
 #+title: ${title}
 
-** Summary
-"
-           :unnarrowed t)
-          ("p" "Paper" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "Papers/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+** Summary\n"
+				) :unnarrowed t)
+        ("p" "Paper" plain "%?" :target
+                (file+head "Papers/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
 #+roam_tags: paper
 #+title: ${title}
@@ -431,13 +446,11 @@ Need [[file:../2022_research_list.org][to read]].
 *** Results
 
 
-*** Conclusions
-"
-           :unnarrowed t)
-          ("t" "Talk" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "Talks/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+*** Conclusions\n"
+				) :unnarrowed t)
+        ("t" "Talk" plain "%?" :target
+                (file+head "Talks/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+hugo_slug: ${slug}
 #+roam_tags: talk
 #+title: ${title}
@@ -461,23 +474,22 @@ Related to
 *** Results
 
 
-*** Conclusions
-"
-           :unnarrowed t)
-          ("j" "Private" plain (function org-roam-capture--get-point)
-           "%?"
-           :file-name "Private/${slug}"
-           :head "#+roam_tags: private
+*** Conclusions\n"
+				) :unnarrowed t)
+		("j" "Private" plain "%?" :target
+		        (file+head "Private/${slug}.org"
+"#+roam_tags: private
 #+title: ${title}
 
-** Summary
-"
-           :unnarrowed t)))
+** Summary\n"
+				) :unnarrowed t)
+  	)
+  )
   (setq org-roam-capture-ref-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
-           "%?"
-           :file-name "Websites/${slug}"
-           :head "#+setupfile:../hugo_setup.org
+    '(
+	    ("r" "ref" plain "%?" :target
+	            (file+head "Websites/${slug}.org"
+"#+setupfile:../hugo_setup.org
 #+roam_key: ${ref}
 #+hugo_slug: ${slug}
 #+roam_tags: website
@@ -490,23 +502,13 @@ ${ref}
 
 
 Related to "
-           :unnarrowed t)))
-  (set-company-backend! 'org-mode '(company-capf)))
-
-(use-package! org-roam-protocol
-  :after org-protocol)
-
-(after! company
-  (map! "M-/" #'company-complete))
-
-(use-package! company-posframe
-  :hook (company-mode . company-posframe-mode))
-
-(after! (org-roam)
-  (winner-mode +1)
-  (map! :map winner-mode-map
-        "<M-right>" #'winner-redo
-        "<M-left>" #'winner-undo))
+				) :unnarrowed t)
+  	)
+  )
+  (set-company-backend! 'org-mode '(company-capf))
+  :config
+  (org-roam-setup)
+)
 
 (use-package! org-download
   :commands
@@ -552,10 +554,10 @@ Related to "
         org-journal-dir (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/Private/")
         org-journal-carryover-items nil))
 
-(use-package! citeproc-org
-  :after org
-  :config
-  (citeproc-org-setup))
+;;(use-package! citeproc-org
+;;  :after org
+;;  :config
+;;  (citeproc-org-setup))
 
 (use-package! mathpix.el
   :commands (mathpix-screenshot)
@@ -597,22 +599,28 @@ Related to "
   (setq org-roam-bibtex-preformat-keywords
    '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
   (setq orb-templates
-        `(("r" "ref" plain (function org-roam-capture--get-point)
+	`(
+        ("r" "ref" plain
+           ;;(function org-roam-capture--get-point)
            ""
-           :file-name "Websites/${slug}"
-           :head ,(concat
-                   "#+setupfile: ../hugo_setup.org\n"
-                   "#+title: ${=key=}: ${title}\n"
-                   "#+roam_key: ${ref}\n\n"
-                   "* ${title}\n"
-                   "  :PROPERTIES:\n"
-                   "  :Custom_ID: ${=key=}\n"
-                   "  :URL: ${url}\n"
-                   "  :AUTHOR: ${author-or-editor}\n"
-                   "  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
-                   "  :NOTER_PAGE: \n"
-                   "  :END:\n")
-           :unnarrowed t))))
+           :target (file+head "Websites/${slug}"
+					   ,(concat
+"#+setupfile: ../hugo_setup.org\n"
+"#+title: ${=key=}: ${title}\n"
+"#+roam_key: ${ref}\n\n"
+"* ${title}\n"
+"  :PROPERTIES:\n"
+"  :Custom_ID: ${=key=}\n"
+"  :URL: ${url}\n"
+"  :AUTHOR: ${author-or-editor}\n"
+"  :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n"
+"  :NOTER_PAGE: \n"
+"  :END:\n"
+						) :unnarrowed t)
+    	)
+  	)
+  )
+)
 
 (use-package! bibtex-completion
   :config
@@ -785,3 +793,4 @@ With a prefix ARG always prompt for command to use."
 
 ;; Force pdf-tools to "install" at startup to become the default PDF reader in Emacs
 ;; (pdf-tools-install)
+
