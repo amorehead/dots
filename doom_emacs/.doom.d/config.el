@@ -102,6 +102,11 @@
 ;; Fix citeproc-org installation
 ;;(require 'company-posframe)
 
+;; Add calfw for calendar views with org-agenda
+(require 'calfw)
+(require 'calfw-org)
+(setq cfw:org-agenda-schedule-args '(:timestamp))
+
 (after! org
   (require 'org-habit)
 
@@ -339,8 +344,12 @@
         :desc "org-capture" "i" #'org-capture
         :desc "org-roam-graph" "g" #'org-roam-graph
         :desc "org-roam-capture" "c" #'org-roam-capture)
+  (setq org-roam-complete-everywhere t)
+  (setq org-roam-database-connector 'sqlite3)
+  (setq org-roam-db-location "~/Dropbox/Documents/Org/MindMeld/Org/org_roam.db")
+  (setq org-roam-directory (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/"))
   (setq org-roam-db-gc-threshold most-positive-fixnum
-        org-roam-graph-exclude-matcher (list "Private" "Lab")
+        ;;org-roam-graph-exclude-matcher (list "Private" "Lab")
         org-roam-tag-sources '(prop last-directory)
         org-id-link-to-org-use-id t)
 )
@@ -363,9 +372,6 @@
   ;;(map! :map winner-mode-map
   ;;      "<M-right>" #'winner-redo
   ;;      "<M-left>" #'winner-undo)
-  (setq org-roam-directory (file-truename "~/Dropbox/Documents/Org/MindMeld/Org/"))
-  (setq org-roam-db-location "~/Dropbox/Documents/Org/MindMeld/Org/org_roam.db")
-  (setq org-roam-complete-everywhere t)
   (setq org-roam-capture-templates
   	'(
   		("b" "Book" plain "%?" :target
