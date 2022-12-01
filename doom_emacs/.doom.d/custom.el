@@ -11,7 +11,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#222228" "#4E415C"))
  '(objed-cursor-color "#964C7B")
  '(package-selected-packages
-   '(calfw calfw-org gnome-calendar org-roam-ui emacsql-sqlite3 deadgrep))
+   '(openwith calfw calfw-org gnome-calendar org-roam-ui emacsql-sqlite3 deadgrep))
  '(pdf-view-midnight-colors (cons "#FFFFFF" "#27212E"))
  '(rustic-ansi-faces
    ["#27212E" "#964C7B" "#74DFC4" "#FFE261" "#40B4C4" "#EB64B9" "#B4DCE7" "#FFFFFF"])

@@ -800,3 +800,7 @@ With a prefix ARG always prompt for command to use."
 ;; Force pdf-tools to "install" at startup to become the default PDF reader in Emacs
 ;; (pdf-tools-install)
 
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "xournalpp" (file))))
+
