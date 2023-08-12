@@ -8,7 +8,7 @@
 ;; 																					(package! citeproc-org)
 ;; 																					(package! org-roam-ui)
 ;; 																					(package! org-roam-bibtex)
-;; 5. Run '~/.emacs.d/bin/doom sync'
+;; 5. Run '~/.emacs.d/bin/doom sync' iteratively after installing missing packages one-by-one. Keep in mind that `emacs-emacsql-sqlite3` needs to be installed by e.g., `pacman`.
 
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
