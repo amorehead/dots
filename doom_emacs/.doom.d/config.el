@@ -1,6 +1,6 @@
 ;; To set up Doom Emacs (from scratch) for Manjaro Linux, use the following procedure:
 ;;
-;; 1. Run 'yay -S emacs-graphql-git emacs-treepy-git emacs-libegit2-git emacs-async-git emacs-magit-popup emacs-with-editor emacs-ghub emacs-hydra-git emacs-transient emacs-magit-git emacs-org-roam ripgrep dot2tex fd ttf-iosevka ttf-librebaskerville'
+;; 1. Run 'yay -S emacs-graphql-git emacs-treepy-git emacs-libegit2-git emacs-async-git emacs-magit-popup emacs-with-editor emacs-ghub emacs-hydra-git emacs-transient emacs-magit-git emacs-org-roam ripgrep dot2tex fd ttf-iosevka ttf-librebaskerville texlive-full'
 ;; 2. Remove any existing Emacs/Doom Emacs configuration files from ~/.emacs.d and ~/.doom.d
 ;; 3. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
 ;; 4. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
