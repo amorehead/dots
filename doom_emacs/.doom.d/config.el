@@ -10,6 +10,7 @@
 ;; 																					(package! org-roam-ui)
 ;; 																					(package! org-roam-bibtex)
 ;; 6. Run '~/.emacs.d/bin/doom sync' iteratively after installing missing packages one-by-one. Keep in mind that `emacs-emacsql-sqlite3` needs to be installed by e.g., `pacman`.
+;; 7. After all of these steps are complete, if you still run into e.g., issues regarding org-agenda not showing all your TODO items on your calendar, restart your machine to have sql start properly for database support.
 
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
