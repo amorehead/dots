@@ -49,8 +49,13 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-;; Install company-posframe for citeproc-org
-;;(package! company-posframe)
-;;(package! citeproc-org)
+;; Install dependencies for custom Org Mode config
+(package! company-posframe)
+(package! citeproc-org)
+(package! calfw)
+(package! calfw-org)
+(package! openwith)
+(package! deadgrep)
 (package! org-roam-server)
 (package! org-roam-bibtex)
+(package! org-roam-ui)

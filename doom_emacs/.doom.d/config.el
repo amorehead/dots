@@ -1,16 +1,16 @@
-;; To set up Doom Emacs (from scratch) for Manjaro Linux, use the following procedure:
+;; To set up Doom Emacs for Manjaro Linux, use the following procedure:
 ;;
-;; 1. Run 'yay -S emacs-graphql-git emacs-treepy-git emacs-libegit2-git emacs-async-git emacs-magit-popup emacs-with-editor emacs-ghub emacs-hydra-git emacs-transient emacs-magit-git emacs-org-roam ripgrep dot2tex fd ttf-iosevka ttf-librebaskerville'
-;; 2. Run 'sudo pacman -S texlive-plaingeneric'
-;; 3. Remove any existing Emacs/Doom Emacs configuration files from ~/.emacs.d and ~/.doom.d
-;; 4. Run 'git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d && ~/.emacs.d/bin/doom install'
-;; 5. Edit the newly-created packages.el in ~/.doom.d by adding to the end of it:
-;; 																					(package! company-posframe)
-;; 																					(package! citeproc-org)
-;; 																					(package! org-roam-ui)
-;; 																					(package! org-roam-bibtex)
-;; 6. Run '~/.emacs.d/bin/doom sync' iteratively after installing missing packages one-by-one. Keep in mind that `emacs-emacsql-sqlite3` needs to be installed by e.g., `pacman`.
-;; 7. After all of these steps are complete, if you still run into e.g., issues regarding org-agenda not showing all your TODO items on your calendar, restart your machine to have sql start properly for database support.
+;; 0. Remove any existing Emacs/Doom Emacs configuration files by running `pamac remove emacs-nativecomp emacs-emacsql emacs-emacsql-sqlite3 emacs-pg` followed by `rm -rf ~/.config/emacs/ ~/.config/doom/ ~/.emacs.d/ ~/.doom.d/`
+;; 1. Install natively-compiled Emacs by running `pamac install emacs-nativecomp`
+;; 2. Install Doom Emacs locally by following the instructions at https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#doom-emacs
+;; 3. Append the command `export PATH="$HOME/.emacs.d/bin:$PATH"` to your `~/.zshrc` startup file and restart your current shell to ensure `doom` commands now work globally
+;; 4. Run `doom doctor`, and then install any required or optional fonts or language compilers (e.g., `pamac install marked shellcheck`)
+;; 5. Install Org Mode dependencies by running `pamac install ripgrep fd ttf-iosevka ttf-librebaskerville emacs-emacsql-sqlite3`
+;; 6. Replace Doom Emacs' local config with your standard remote-synced config by running `cp -r ~/Dropbox/Repositories/Personal_Repositories/dots/doom_emacs/.doom.d/ ~/`
+;; 7. Install all dependencies for custom Doom Emacs config by now running `doom sync`
+;; 8. Restart your local machine to properly initialize `sqlite` for Doom Emacs + Org Mode support
+;; 9. Test your new Doom Emacs installation by opening (and optionally bookmarking) the "Emacs" application launcher
+;; 10. After all of these steps are complete, if e.g., you still run into issues regarding org-agenda not showing all your TODO items on your calendar, restart your machine to have sqlite3 start properly for Org Roam + SQLite support.
 
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
@@ -446,7 +446,7 @@ Related to "
 
 
 *** Related Work
-Need [[file:../2022_research_list.org][to read]].
+Need [[file:../2023_research_list.org][to read]].
 
 *** Methods
 
@@ -598,6 +598,11 @@ Related to "
                         (s-prefix? "company-" (symbol-name sym)))
                       (face-list)))
     (pushnew! mixed-pitch-fixed-pitch-faces f)))
+    
+(after! org
+  (use-package! ox-extra
+    :config
+    (ox-extras-activate '(latex-header-blocks ignore-headlines))))
 
 (use-package! org-roam-bibtex
   :after (org-roam)
