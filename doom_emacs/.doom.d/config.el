@@ -613,7 +613,7 @@ Related to "
     ;; code here will run after the package is loaded
     (setq org-latex-pdf-process
           '("pdflatex -interaction nonstopmode -output-directory %o %f"
-            "bibtex %b"
+            "biber %b"
             "pdflatex -interaction nonstopmode -output-directory %o %f"
             "pdflatex -interaction nonstopmode -output-directory %o %f"))
     (setq org-latex-with-hyperref nil) ;; stop org adding hypersetup{author..} to latex export
