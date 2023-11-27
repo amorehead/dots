@@ -5,12 +5,12 @@
 ;; 2. Install Doom Emacs locally by following the instructions at https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#doom-emacs
 ;; 3. Append the command `export PATH="$HOME/.emacs.d/bin:$PATH"` to your `~/.zshrc` startup file and restart your current shell to ensure `doom` commands now work globally
 ;; 4. Run `doom doctor`, and then install any required or optional fonts or language compilers (e.g., `pamac install marked shellcheck`)
-;; 5. Install Org Mode dependencies by running `pamac install ripgrep fd ttf-iosevka ttf-librebaskerville texlive-plaingeneric texlive-binextra texlive-fontsextra texlive-bibtexextra emacs-emacsql-sqlite3`
+;; 5. Install Org Mode dependencies by running `pamac install ripgrep fd biber ttf-iosevka ttf-librebaskerville texlive-latex texlive-latexrecommended texlive-basic texlive-fontsrecommended texlive-fontsextra texlive-latexextra texlive-plaingeneric texlive-binextra texlive-fontsextra texlive-bibtexextra texlive-langenglish texlive-mathscience texlive-xetex texlive-luatex emacs-emacsql-sqlite3`
 ;; 6. Replace Doom Emacs' local config with your standard remote-synced config by running `cp -r ~/Dropbox/Repositories/Personal_Repositories/dots/doom_emacs/.doom.d/ ~/`
 ;; 7. Install all dependencies for custom Doom Emacs config by now running `doom sync`
 ;; 8. Restart your local machine to properly initialize `sqlite` for Doom Emacs + Org Mode support
 ;; 9. Test your new Doom Emacs installation by opening (and optionally bookmarking) the "Emacs" application launcher
-;; 10. After all of these steps are complete, if e.g., you still run into issues regarding org-agenda not showing all your TODO items on your calendar, restart your machine to have sqlite3 start properly for Org Roam + SQLite support.
+;; 10. After all of these steps are complete, if e.g., you still run into issues regarding org-agenda not showing all your TODO items on your calendar, restart your machine (again) to have sqlite3 start properly for Org Roam + SQLite support
 
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
@@ -766,13 +766,13 @@ With a prefix ARG always prompt for command to use."
       (interactive)
       (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-(after! org-latex
-  (setq org-latex-pdf-process (list "latexmk -f -xelatex %f")))
+;;(after! org-latex
+;;  (setq org-latex-pdf-process (list "latexmk -f -xelatex %f")))
 
 (setq org-babel-python-command "python3")
 
 ;; Source: https://stackoverflow.com/questions/55563546/emacs-org-mode-latex-simply-switch-between-pdflatex-xelatex-and-lualatex
-(setq org-latex-pdf-process (list "latexmk -pdflatex='%latex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))
+;; (setq org-latex-pdf-process (list "latexmk -pdflatex='%latex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))
 
 ;; Source: https://emacsredux.com/blog/2016/01/31/use-tab-to-indent-or-complete/
 (setq tab-always-indent 'complete)
