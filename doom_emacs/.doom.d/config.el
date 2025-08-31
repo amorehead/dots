@@ -1,12 +1,12 @@
 ;; To set up Doom Emacs for Manjaro Linux, use the following procedure:
 ;;
 ;; 0. Remove any existing Emacs/Doom Emacs configuration files by running `pamac remove emacs-nativecomp emacs-emacsql emacs-emacsql-sqlite3 emacs-pg` followed by `rm -rf ~/.config/emacs/ ~/.config/doom/ ~/.emacs.d/ ~/.doom.d/`
-;; 1. Install natively-compiled Emacs by running `pamac install emacs-nativecomp`
+;; 1. Install natively-compiled Emacs by running `pamac install emacs-nativecomp libappindicator-gtk3` (or, on macOS, via `brew tap railwaycat/emacsmacport && brew install emacs-mac --with-native-comp --with-modules && ln -s /usr/local/opt/emacs-mac/Emacs.app /Applications/Emacs.app`; then follow https://github.com/railwaycat/homebrew-emacsmacport/blob/master/docs/emacs-start-helpers.md to set up an Applications shortcut; finally, run `brew install graphviz && brew install --cask font-symbols-only-nerd-font && brew install --cask font-libre-baskerville` to set up optional packages)
 ;; 2. Install Doom Emacs locally by following the instructions at https://github.com/doomemacs/doomemacs/blob/master/docs/getting_started.org#doom-emacs
 ;; 3. Append the command `export PATH="$HOME/.emacs.d/bin:$PATH"` to your `~/.zshrc` startup file and restart your current shell to ensure `doom` commands now work globally
 ;; 4. Run `doom doctor`, and then install any required or optional fonts or language compilers (e.g., `pamac install marked shellcheck`)
-;; 5. Install Org Mode dependencies by running `pamac install ripgrep fd biber ttf-iosevka ttf-librebaskerville texlive-latex texlive-latexrecommended texlive-basic texlive-fontsrecommended texlive-fontsextra texlive-latexextra texlive-plaingeneric texlive-binextra texlive-fontsextra texlive-bibtexextra texlive-langenglish texlive-mathscience texlive-xetex texlive-luatex emacs-emacsql-sqlite3`
-;; 6. Replace Doom Emacs' local config with your standard remote-synced config by running `cp -r ~/Dropbox/Repositories/Personal_Repositories/dots/doom_emacs/.doom.d/ ~/`
+;; 5. Install Org Mode dependencies by running `pamac install ripgrep fd biber ttf-iosevka texlive-latex texlive-latexrecommended texlive-basic texlive-fontsrecommended texlive-fontsextra texlive-latexextra texlive-plaingeneric texlive-binextra texlive-fontsextra texlive-bibtexextra texlive-langenglish texlive-mathscience texlive-xetex texlive-luatex emacs-emacsql-sqlite3`
+;; 6. Replace Doom Emacs' local config with your standard remote-synced config by running `cp -r ~/Dropbox/Repositories/Personal_Repositories/dots/doom_emacs/.doom.d ~/`
 ;; 7. Install all dependencies for custom Doom Emacs config by now running `doom sync`
 ;; 8. Restart your local machine to properly initialize `sqlite` for Doom Emacs + Org Mode support
 ;; 9. Test your new Doom Emacs installation by opening (and optionally bookmarking) the "Emacs" application launcher
